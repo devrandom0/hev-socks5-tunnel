@@ -217,6 +217,10 @@ You can also set the route rules with multiple network segments like:
         a.b.c.f/24
 ```
 
+#### Mikrotik
+
+Check this [link](https://forum.mikrotik.com/viewtopic.php?t=203410)
+
 ## API
 
 ```c

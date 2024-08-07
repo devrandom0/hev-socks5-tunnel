@@ -1,0 +1,5 @@
+FROM ghcr.io/heiher/hev-socks5-tunnel:latest
+
+COPY --chmod=755 docker/entrypoint-mikrotik.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
