@@ -14,6 +14,11 @@ else
   MARK="${MARK:-438}"
 fi
 
+if [ -z "${MAIN_IF}" ]; then
+  MAIN_IF=$(ip route show table main | grep default | head -n1 | sed 's/.* dev \([^ ]*\).*/\1/')
+fi
+echo "Using main interface: ${MAIN_IF}"
+
 SOCKS5_ADDR="${SOCKS5_ADDR:-172.17.0.1}"
 SOCKS5_PORT="${SOCKS5_PORT:-1080}"
 SOCKS5_USERNAME="${SOCKS5_USERNAME:-}"
@@ -70,7 +75,7 @@ config_route() {
     echo "ip rule add to ${addr} table ${TABLE}" >> /route.sh
   done
 
-  echo "ip rule add to $(ip -o -f inet address show eth0 | awk '/scope global/ {print $4}') table main" >> /route.sh
+  echo "ip rule add to $(ip -o -f inet address show ${MAIN_IF} | awk '/scope global/ {print $4}') table main" >> /route.sh
 
   for addr in $(echo ${IPV4_EXCLUDED_ROUTES} | tr ',' '\n'); do
     echo "ip rule add to ${addr} table main" >> /route.sh
